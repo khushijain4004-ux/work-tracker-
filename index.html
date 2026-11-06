@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#89536b">
+<title>Miraaya Work Tracker</title>
+
+<style>
+:root{
+  --primary:#89536b;
+  --primary-dark:#693b50;
+  --pink:#f7edf1;
+  --bg:#fbf8f9;
+  --white:#fff;
+  --text:#382b32;
+  --muted:#897780;
+  --border:#eadde3;
+  --green:#287a54;
+  --red:#b33e4d;
+  --gold:#9a6b27;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;font-size:14px;
+}
+header{
+  background:linear-gradient(120deg,#693b50,#a46b83);
+  color:white;padding:20px 16px;
+}
+.header-inner{max-width:1050px;margin:auto}
+header h1{font-family:Georgia,serif;font-size:26px;margin:0 0 5px}
+header p{margin:0;opacity:.9;font-size:13px}
+main{max-width:1050px;margin:auto;padding:15px}
+.panel,.work-card{
+  background:white;border:1px solid var(--border);
+  border-radius:14px;padding:16px;margin:13px 0;
+  box-shadow:0 3px 12px #5530440a;
+}
+h2{font-size:19px;margin:0 0 13px}
+h3{font-size:16px;margin:0}
+p{line-height:1.5}
+label{display:block;font-weight:bold;font-size:13px;margin:12px 0 5px}
+input,select,textarea{
+  display:block;width:100%;padding:11px;
+  border:1px solid #ddcbd4;border-radius:9px;
+  background:white;color:var(--text);font:inherit;
+}
+textarea{min-height:75px;resize:vertical}
+button{
+  background:var(--primary);color:white;border:0;
+  padding:11px 15px;border-radius:9px;font-weight:bold;
+  cursor:pointer;margin:6px 5px 0 0;
+}
+button.secondary{background:var(--pink);color:var(--primary);border:1px solid var(--border)}
+button.danger{background:#a53c4a}
+button:disabled{opacity:.5;cursor:wait}
+.small{font-size:12px;color:var(--muted)}
+.muted{color:var(--muted)}
+.hidden{display:none!important}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:130px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.choice{
+  display:flex;align-items:center;gap:8px;
+  background:#fcf8fa;border:1px solid var(--border);
+  padding:9px;border-radius:8px;font-weight:normal;margin:0;
+}
+.choice input{width:auto;margin:0}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.tabs button{margin:0}
+.tabs button.active{background:var(--primary-dark)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--pink);padding:12px;border-radius:10px}
+.stat strong{display:block;font-size:22px;color:var(--primary)}
+.stat span{font-size:11px;color:var(--muted)}
+.badge{
+  display:inline-block;background:var(--pink);color:var(--primary);
+  border-radius:20px;padding:5px 9px;font-size:11px;margin:3px 3px 3px 0;
+}
+.badge.red{background:#fdecef;color:var(--red)}
+.badge.green{background:#e9f5ee;color:var(--green)}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.work-card p{font-size:13px;margin:7px 0;overflow-wrap:anywhere}
+.work-card strong{color:#5c414e}
+.photo{width:75px;height:75px;object-fit:cover;border-radius:8px;margin:5px}
+#message{padding:11px;background:#fff4e7;color:#754b21;border-radius:9px;white-space:pre-wrap;margin:12px 0}
+#message.success{background:#e9f5ee;color:#246a48}
+#message.error{background:#fdecef;color:#9b3140}
+footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
+@media(max-width:520px){
+  main{padding:9px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr 1fr}
+  header h1{font-size:23px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <h1>Miraaya Design Studio</h1>
+    <p>Work Tracker · Orders, tasks and team updates</p>
+  </div>
+</header>
+
+<main>
+  <div id="message" class="hidden"></div>
+
+  <!-- SIGN IN -->
+  <section id="loginPanel" class="panel">
+    <h2>Welcome to Miraaya</h2>
+    <p class="muted">Sign in using your own Google account to access the work tracker.</p>
+    <button id="loginButton">Sign in with Google</button>
+  </section>
+
+  <!-- STAFF WAITING FOR APPROVAL -->
+  <section id="pendingPanel" class="panel hidden">
+    <h2>Approval pending</h2>
+    <p>Your account has been registered. Please wait for the owner to approve your access.</p>
+    <p id="pendingEmail" class="small"></p>
+    <button class="secondary" id="pendingSignOut">Sign out</button>
+  </section>
+
+  <!-- MAIN APPLICATION -->
+  <section id="appPanel" class="hidden">
+    <div class="panel">
+      <div class="topline">
+        <div>
+          <h2 id="welcomeTitle">Dashboard</h2>
+          <div id="accountInfo" class="small"></div>
+        </div>
+        <button class="secondary" id="signOutButton">Sign out</button>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="tabs">
+        <button class="active" data-tab="dashboardTab">Dashboard</button>
+        <button data-tab="registerTab">Work register</button>
+        <button id="staffTabButton" data-tab="staffTab" class="hidden">Staff</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section id="dashboardTab" class="tab-content">
+      <div class="panel">
+        <h2>Upcoming reminders</h2>
+        <p class="small">Work due within the next three days and overdue work.</p>
+        <div id="reminders"></div>
+      </div>
+      <div class="panel">
+        <h2>Recent work</h2>
+        <div id="recentWork"></div>
+      </div>
+    </section>
+
+    <!-- WORK REGISTER -->
+    <section id="registerTab" class="tab-content hidden">
+      <div id="addWorkPanel" class="panel hidden">
+        <h2>Add new customer work</h2>
+        <form id="workForm">
+          <label>Customer name *</label>
+          <input id="clientName" required maxlength="100" placeholder="Customer name">
+
+          <div class="row">
+            <div>
+              <label>Phone number</label>
+              <input id="phone" type="tel" maxlength="25" placeholder="Customer phone">
+            </div>
+            <div>
+              <label>Order date *</label>
+              <input id="orderDate" type="date" required>
+            </div>
+          </div>
+
+          <label>Garment *</label>
+          <select id="garment" required>
+            <option value="">Select garment</option>
+            <option>Saree</option>
+            <option>Blouse</option>
+            <option>Kurta</option>
+            <option>Pant</option>
+            <option>Skirt</option>
+            <option>Dupatta</option>
+            <option>Dhoti</option>
+          </select>
+
+          <label>Tasks required *</label>
+          <div id="taskChoices" class="grid">
+            <span class="small">Select a garment first.</span>
+          </div>
+
+          <label>Work description / design details</label>
+          <textarea id="description" placeholder="Fabric, colour, design and instructions"></textarea>
+
+          <label>Task assigned to (select multiple staff)</label>
+          <div id="staffChoices" class="grid">
+            <span class="small">Loading approved staff...</span>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Date given for work *</label>
+              <input id="dateGiven" type="date" required>
+            </div>
+            <div>
+              <label>Due date</label>
+              <input id="dueDate" type="date">
+            </div>
+          </div>
+
+          <label>Work status</label>
+          <select id="status">
+            <option>Pending</option>
+            <option>Given for Work</option>
+            <option>In Progress</option>
+            <option>Received</option>
+            <option>Completed</option>
+          </select>
+
+          <label>Notes / pending instructions</label>
+          <textarea id="notes" placeholder="Additional instructions or pending details"></textarea>
+
+          <label>Order / measurement photos</label>
+          <input id="photos" type="file" accept="image/*" multiple>
+          <p class="small">Photo uploads require Firebase Storage to be enabled.</p>
+
+          <button type="submit" id="saveButton">Save customer work</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="topline">
+          <h2>Work register</h2>
+          <select id="statusFilter" style="max-width:155px">
+            <option value="">All statuses</option>
+            <option>Pending</option>
+            <option>Given for Work</option>
+            <option>In Progress</option>
+            <option>Received</option>
+            <option>Completed</option>
+            <option>Overdue</option>
+          </select>
+        </div>
+        <label>Search work</label>
+        <input id="searchBox" placeholder="Search customer, phone, garment or task">
+        <div id="workList">Loading records...</div>
+      </div>
+    </section>
+
+    <!-- STAFF MANAGEMENT -->
+    <section id="staffTab" class="tab-content hidden">
+      <div class="panel">
+        <h2>Staff accounts</h2>
+        <p class="small">Approve only staff members you recognise. Staff must sign in with Google before appearing in this list.</p>
+        <div id="staffList">Loading staff...</div>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer>Miraaya Design Studio · Work Tracker</footer>
+
+<!-- FIREBASE LIBRARIES -->
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
+
+<script>
+// ======================================================
+// 1. FIREBASE CONFIGURATION
+// ======================================================
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC19DHIJayjhxwPB0AyldX0b28qg1KEtlc",
+  authDomain: "work-tracker-44ff9.firebaseapp.com",
+  projectId: "work-tracker-44ff9",
+  storageBucket: "work-tracker-44ff9.firebasestorage.app",
+  messagingSenderId: "737691536388",
+  appId: "1:737691536388:web:38dd297de7e3f0f1a5b951"
+};
+
+// ======================================================
+// 2. OWNER ACCOUNT
+// ======================================================
+const OWNER_EMAIL = "khushijain4004@gmail.com";
+
+// ======================================================
+// 3. START FIREBASE
+// ======================================================
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+const $ = id => document.getElementById(id);
+let currentUser = null;
+let currentProfile = null;
+let staffCache = [];
+let workCache = [];
+let currentTab = "dashboardTab";
+
+const tasksByGarment = {
+  Saree: ["Kuchu", "Fall Pico", "Hangings"],
+  Blouse: ["Cutting", "Stitching", "Embroidery"],
+  Kurta: ["Cutting", "Stitching", "Embroidery"],
+  Pant: ["Cutting", "Stitching", "Embroidery"],
+  Skirt: ["Cutting", "Stitching", "Embroidery"],
+  Dupatta: ["Cutting", "Stitching", "Embroidery"],
+  Dhoti: ["Cutting", "Stitching", "Embroidery"]
+};
+
+const statuses = [
+  "Pending", "Given for Work", "In Progress",
+  "Received", "Completed"
+];
+
+function isOwner(user = currentUser) {
+  return !!user?.email &&
+    user.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+}
+
+function showMessage(text, type = "") {
+  const el = $("message");
+  el.textContent = text;
+  el.className = type;
+}
+function clearMessage() {
+  $("message").textContent = "";
+  $("message").className = "hidden";
+}
+function safe(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+function showScreen(id) {
+  ["loginPanel", "pendingPanel", "appPanel"].forEach(x =>
+    $(x).classList.add("hidden")
+  );
+  $(id).classList.remove("hidden");
+}
+function todayString() {
+  const d = new Date();
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+}
+function effectiveStatus(work) {
+  if (work.status !== "Completed" && work.dueDate &&
+      work.dueDate < todayString()) return "Overdue";
+  return work.status || "Pending";
+}
+function escapeFileName(name) {
+  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 90);
+}
+
+// ======================================================
+// 4. GOOGLE SIGN-IN
+// ======================================================
+$("loginButton").onclick = async () => {
+  clearMessage();
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await auth.signInWithRedirect(provider);
+  } catch (error) {
+    showMessage("Google sign-in failed: " + error.message, "error");
+  }
+};
+$("signOutButton").onclick = () => auth.signOut();
+$("pendingSignOut").onclick = () => auth.signOut();
+
+auth.getRedirectResult().catch(error => {
+  showMessage("Sign-in error: " + error.message, "error");
+});
+
+// ======================================================
+// 5. AUTHENTICATION AND ACCOUNT APPROVAL
+// ======================================================
+auth.onAuthStateChanged(async user => {
+  currentUser = user;
+  if (!user) {
+    currentProfile = null;
+    showScreen("loginPanel");
+    return;
+  }
+
+  clearMessage();
+
+  try {
+    const profileRef = db.collection("users").doc(user.uid);
+    const profileSnap = await profileRef.get();
+
+    if (isOwner(user)) {
+      await profileRef.set({
+        name: user.displayName || "Owner",
+        email: user.email,
+        role: "owner",
+        status: "active"
+      }, { merge: true });
+
+      currentProfile = { role: "owner", status: "active" };
+      await openApplication();
+      return;
+    }
+
+    if (!profileSnap.exists) {
+      await profileRef.set({
+        name: user.displayName || "Staff",
+        email: user.email,
+        role: "staff",
+        status: "pending"
+      });
+    }
+
+    const latest = await profileRef.get();
+    currentProfile = latest.data();
+
+    if (currentProfile.status !== "active" ||
+        currentProfile.role !== "staff") {
+      $("pendingEmail").textContent =
+        user.email + " · Waiting for owner approval";
+      showScreen("pendingPanel");
+      return;
+    }
+
+    await openApplication();
+  } catch (error) {
+    showMessage(
+      "Could not open your account. Please check Firebase security rules. " +
+      error.message, "error"
+    );
+  }
+});
+
+// ======================================================
+// 6. OPEN APPLICATION
+// ======================================================
+async function openApplication() {
+  showScreen("appPanel");
+  $("welcomeTitle").textContent =
+    isOwner() ? "Owner dashboard" : "Staff dashboard";
+  $("accountInfo").textContent = currentUser.email;
+
+  $("addWorkPanel").classList.toggle("hidden", !isOwner());
+  $("staffTabButton").classList.toggle("hidden", !isOwner());
+
+  await loadStaff();
+  await loadWork();
+  selectTab("dashboardTab");
+}
+
+function selectTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab-content").forEach(el =>
+    el.classList.add("hidden")
+  );
+  $(tab).classList.remove("hidden");
+
+  document.querySelectorAll(".tabs button[data-tab]").forEach(btn =>
+    btn.classList.toggle("active", btn.dataset.tab === tab)
+  );
+}
+document.querySelectorAll(".tabs button[data-tab]").forEach(btn => {
+  btn.onclick = () => selectTab(btn.dataset.tab);
+});
+
+// ======================================================
+// 7. GARMENT TASK SELECTION
+// ======================================================
+$("garment").onchange = () => {
+  const garment = $("garment").value;
+  const tasks = tasksByGarment[garment] || [];
+
+  $("taskChoices").innerHTML = tasks.map(task => `
+    <label class="choice">
+      <input type="checkbox" name="taskChoice" value="${safe(task)}">
+      ${safe(task)}
+    </label>
+  `).join("") || '<span class="small">Select a garment first.</span>';
+};
+
+// ======================================================
+// 8. LOAD STAFF
+// ======================================================
+async function loadStaff() {
+  if (!isOwner()) {
+    $("staffChoices").innerHTML =
+      '<span class="small">Only the owner can assign staff.</span>';
+    return;
+  }
+
+  try {
+    const snap = await db.collection("users").get();
+    staffCache = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
+
+    const staff = staffCache.filter(s =>
+      s.role === "staff" && s.status === "active"
+    );
+    const pending = staffCache.filter(s =>
+      s.role === "staff" && s.status === "pending"
+    );
+
+    $("staffChoices").innerHTML = staff.map(s => `
+      <label class="choice">
+        <input type="checkbox" name="assignedStaff" value="${safe(s.uid)}">
+        ${safe(s.name || s.email)}
+      </label>
+    `).join("") || '<span class="small">No approved staff yet.</span>';
+
+    $("staffList").innerHTML =
+      (pending.length ? "<h3>Waiting for approval</h3>" +
+        pending.map(s => `
+          <div class="work-card">
+            <strong>${safe(s.name || "Staff member")}</strong>
+            <p>${safe(s.email)}</p>
+            <button onclick="approveStaff('${safe(s.uid)}')">Approve staff</button>
+          </div>
+        `).join("") : "<p class='small'>No pending requests.</p>") +
+      "<h3>Approved staff</h3>" +
+      (staff.map(s => `
+        <div class="work-card">
+          <strong>${safe(s.name || "Staff member")}</strong>
+          <p class="small">${safe(s.email)}</p>
+          <button class="danger" onclick="deactivateStaff('${safe(s.uid)}')">
+            Deactivate
+          </button>
+        </div>
+      `).join("") || "<p class='small'>No approved staff.</p>");
+  } catch (error) {
+    showMessage("Could not load staff: " + error.message, "error");
+  }
+}
+
+window.approveStaff = async uid => {
+  if (!isOwner()) return;
+  try {
+    await db.collection("users").doc(uid).update({
+      role: "staff", status: "active"
+    });
+    await loadStaff();
+    showMessage("Staff member approved.", "success");
+  } catch (error) {
+    showMessage("Approval failed: " + error.message, "error");
+  }
+};
+
+window.deactivateStaff = async uid => {
+  if (!isOwner()) return;
+  if (!confirm("Deactivate this staff account?")) return;
+  try {
+    await db.collection("users").doc(uid).update({ status: "inactive" });
+    await loadStaff();
+    showMessage("Staff account deactivated.", "success");
+  } catch (error) {
+    showMessage("Could not deactivate staff: " + error.message, "error");
+  }
+};
+
+// ======================================================
+// 9. CREATE CUSTOMER WORK
+// ======================================================
+$("orderDate").value = todayString();
+$("dateGiven").value = todayString();
+
+$("workForm").onsubmit = async event => {
+  event.preventDefault();
+  if (!isOwner()) return;
+
+  const tasks = [...document.querySelectorAll(
+    'input[name="taskChoice"]:checked'
+  )].map(el => el.value);
+
+  const assigned = [...document.querySelectorAll(
+    'input[name="assignedStaff"]:checked'
+  )].map(el => el.value);
+
+  if (!tasks.length) {
+    showMessage("Select at least one task.", "error");
+    return;
+  }
+
+  const record = {
+    clientName: $("clientName").value.trim(),
+    phone: $("phone").value.trim(),
+    orderDate: $("orderDate").value,
+    garment: $("garment").value,
+    tasks,
+    description: $("description").value.trim(),
+    assignedTo: assigned,
+    assignedNames: staffCache
+      .filter(s => assigned.includes(s.uid))
+      .map(s => s.name || s.email),
+    dateGiven: $("dateGiven").value,
+    dueDate: $("dueDate").value,
+    status: $("status").value,
+    dateReceived: "",
+    notes: $("notes").value.trim(),
+    photoPaths: [],
+    createdBy: currentUser.uid,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  if (!record.clientName || !record.garment ||
+      !record.orderDate || !record.dateGiven) {
+    showMessage("Please complete all required fields.", "error");
+    return;
+  }
+
+  const files = [...$("photos").files];
+  if (files.length > 5) {
+    showMessage("Please select no more than 5 photos per work record.", "error");
+    return;
+  }
+
+  $("saveButton").disabled = true;
+
+  try {
+    const docRef = await db.collection("work_register").add(record);
+    const paths = [];
+
+    for (const file of files) {
+      if (!file.type.startsWith("image/")) continue;
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error("Each photo must be smaller than 5 MB.");
+      }
+
+      const path = "work_photos/" + docRef.id + "/" +
+        Date.now() + "_" + escapeFileName(file.name);
+      const ref = storage.ref().child(path);
+      await ref.put(file);
+      paths.push(path);
+    }
+
+    if (paths.length) {
+      await docRef.update({
+        photoPaths: paths,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    $("workForm").reset();
+    $("orderDate").value = todayString();
+    $("dateGiven").value = todayString();
+    $("taskChoices").innerHTML =
+      '<span class="small">Select a garment first.</span>';
+
+    await loadWork();
+    showMessage("Customer work saved successfully.", "success");
+  } catch (error) {
+    showMessage("Could not save work: " + error.message, "error");
+  } finally {
+    $("saveButton").disabled = false;
+  }
+};
+
+// ======================================================
+// 10. LOAD WORK RECORDS
+// ======================================================
+async function loadWork() {
+  try {
+    let query = db.collection("work_register");
+
+    if (!isOwner()) {
+      query = query.where(
+        "assignedTo", "array-contains", currentUser.uid
+      );
+    }
+
+    const snap = await query.get();
+    workCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    renderWork();
+    renderDashboard();
+  } catch (error) {
+    $("workList").textContent =
+      "Could not load work records: " + error.message;
+  }
+}
+
+// ======================================================
+// 11. DASHBOARD AND REMINDERS
+// ======================================================
+function renderDashboard() {
+  const counts = {
+    total: workCache.length,
+    pending: 0, progress: 0, completed: 0, overdue: 0
+  };
+
+  workCache.forEach(w => {
+    const status = effectiveStatus(w);
+    if (status === "Pending") counts.pending++;
+    if (status === "In Progress") counts.progress++;
+    if (status === "Completed") counts.completed++;
+    if (status === "Overdue") counts.overdue++;
+  });
+
+  $("stats").innerHTML = `
+    <div class="stat"><strong>${counts.total}</strong><span>Total work</span></div>
+    <div class="stat"><strong>${counts.pending}</strong><span>Pending</span></div>
+    <div class="stat"><strong>${counts.progress}</strong><span>In progress</span></div>
+    <div class="stat"><strong>${counts.overdue}</strong><span>Overdue</span></div>
+  `;
+
+  const today = todayString();
+  const future = new Date();
+  future.setDate(future.getDate() + 3);
+  const limit = new Date(future.getTime() -
+    future.getTimezoneOffset() * 60000).toISOString().slice(0,10);
+
+  const reminders = workCache.filter(w =>
+    w.status !== "Completed" && w.dueDate &&
+    w.dueDate <= limit
+  ).sort((a,b) => (a.dueDate || "").localeCompare(b.dueDate || ""));
+
+  $("reminders").innerHTML = reminders.length ? reminders.map(w => `
+    <div class="work-card">
+      <strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
+      <p>Due: ${safe(w.dueDate)}
+      <span class="badge ${w.dueDate < today ? "red" : ""}">
+        ${w.dueDate < today ? "Overdue" : "Due soon"}
+      </span></p>
+    </div>
+  `).join("") : "<p class='small'>No upcoming reminders.</p>";
+
+  const recent = [...workCache].sort((a,b) =>
+    (b.orderDate || "").localeCompare(a.orderDate || "")
+  ).slice(0,5);
+
+  $("recentWork").innerHTML = recent.length ? recent.map(w => `
+    <div class="work-card">
+      <strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
+      <p>${safe((w.tasks || []).join(", "))}</p>
+      <span class="badge">${safe(effectiveStatus(w))}</span>
+    </div>
+  `).join("") : "<p class='small'>No work records yet.</p>";
+}
+
+// ======================================================
+// 12. WORK REGISTER DISPLAY AND SEARCH
+// ======================================================
+function renderWork() {
+  const term = $("searchBox").value.toLowerCase().trim();
+  const filter = $("statusFilter").value;
+
+  const filtered = workCache.filter(w => {
+    const searchText = [
+      w.clientName, w.phone, w.garment,
+      (w.tasks || []).join(" "), w.description,
+      (w.assignedNames || []).join(" ")
+    ].join(" ").toLowerCase();
+
+    const status = effectiveStatus(w);
+    const statusMatch = !filter || status === filter ||
+      (filter === "Overdue" && status === "Overdue");
+
+    return (!term || searchText.includes(term)) && statusMatch;
+  });
+
+  if (!filtered.length) {
+    $("workList").innerHTML =
+      "<p class='muted'>No matching work records.</p>";
+    return;
+  }
+
+  $("workList").innerHTML = filtered.map(w => {
+    const status = effectiveStatus(w);
+    const badgeClass = status === "Completed" ? "green" :
+      status === "Overdue" ? "red" : "";
+
+    const photoHTML = (w.photoPaths || []).map((path, index) => `
+      <img class="photo" alt="Work photo ${index+1}"
+        data-photo-path="${safe(path)}">
+    `).join("");
+
+    return `
+      <article class="work-card">
+        <div class="topline">
+          <h3>${safe(w.clientName)} · ${safe(w.garment)}</h3>
+          <span class="badge ${badgeClass}">${safe(status)}</span>
+        </div>
+        <p><strong>Phone:</strong> ${safe(w.phone || "Not added")}</p>
+        <p><strong>Order date:</strong> ${safe(w.orderDate || "—")}</p>
+        <p><strong>Tasks:</strong> ${safe((w.tasks || []).join(", "))}</p>
+        <p><strong>Assigned to:</strong>
+          ${safe((w.assignedNames || []).join(", ") || "Not assigned")}
+        </p>
+        <p><strong>Date given:</strong> ${safe(w.dateGiven || "—")}</p>
+        <p><strong>Due date:</strong> ${safe(w.dueDate || "—")}</p>
+        <p><strong>Description:</strong> ${safe(w.description || "—")}</p>
+        <p><strong>Notes:</strong> ${safe(w.notes || "—")}</p>
+        <p><strong>Received on:</strong> ${safe(w.dateReceived || "Not received")}</p>
+        <div>${photoHTML}</div>
+        <button class="secondary" onclick="updateWork('${safe(w.id)}')">
+          Update work
+        </button>
+        ${isOwner() ? `
+          <button class="danger" onclick="deleteWork('${safe(w.id)}')">
+            Delete
+          </button>` : ""}
+      </article>
+    `;
+  }).join("");
+
+  document.querySelectorAll("[data-photo-path]").forEach(async img => {
+    try {
+      img.src = await storage.ref().child(img.dataset.photoPath).getDownloadURL();
+    } catch (error) {
+      img.alt = "Photo unavailable";
+    }
+  });
+}
+
+// ======================================================
+// 13. UPDATE WORK
+// Staff can update only the fields allowed by security rules.
+// ======================================================
+window.updateWork = async id => {
+  const work = workCache.find(w => w.id === id);
+  if (!work) return;
+
+  const status = prompt(
+    "Enter status:\nPending, Given for Work, In Progress, Received, Completed",
+    work.status || "Pending"
+  );
+  if (status === null) return;
+  if (!statuses.includes(status)) {
+    showMessage("Please enter a valid status from the list.", "error");
+    return;
+  }
+
+  const dateReceived = prompt(
+    "Received on (YYYY-MM-DD). Leave blank if not received:",
+    work.dateReceived || ""
+  );
+  if (dateReceived === null) return;
+
+  const notes = prompt("Update notes:", work.notes || "");
+  if (notes === null) return;
+
+  try {
+    await db.collection("work_register").doc(id).update({
+      status,
+      dateReceived,
+      notes: notes.trim(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await loadWork();
+    showMessage("Work updated successfully.", "success");
+  } catch (error) {
+    showMessage("Could not update work: " + error.message, "error");
+  }
+};
+
+// ======================================================
+// 14. OWNER DELETE
+// ======================================================
+window.deleteWork = async id => {
+  if (!isOwner()) return;
+  if (!confirm("Delete this work record and its photos?")) return;
+
+  try {
+    const work = workCache.find(w => w.id === id);
+    for (const path of (work?.photoPaths || [])) {
+      try { await storage.ref().child(path).delete(); } catch (_) {}
+    }
+    await db.collection("work_register").doc(id).delete();
+    await loadWork();
+    showMessage("Work record deleted.", "success");
+  } catch (error) {
+    showMessage("Could not delete work: " + error.message, "error");
+  }
+};
+
+// ======================================================
+// 15. FILTERS
+// ======================================================
+$("searchBox").addEventListener("input", renderWork);
+$("statusFilter").addEventListener("change", renderWork);
+</script>
+</body>
+</html>
