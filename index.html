@@ -5,276 +5,183 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#89536b">
 <title>Work Tracker</title>
-
 <style>
-:root{
-  --primary:#89536b;
-  --primary-dark:#693b50;
-  --pink:#f7edf1;
-  --bg:#fbf8f9;
-  --white:#fff;
-  --text:#382b32;
-  --muted:#897780;
-  --border:#eadde3;
-  --green:#287a54;
-  --red:#b33e4d;
-  --gold:#9a6b27;
-}
+:root{--primary:#89536b;--primary-dark:#693b50;--pink:#f7edf1;--bg:#fbf8f9;--white:#fff;--text:#382b32;--muted:#897780;--border:#eadde3;--green:#287a54;--red:#b33e4d}
 *{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Arial,sans-serif;font-size:14px;
-}
-header{
-  background:linear-gradient(120deg,#693b50,#a46b83);
-  color:white;padding:20px 16px;
-}
-.header-inner{max-width:1050px;margin:auto}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;font-size:14px}
+header{background:linear-gradient(120deg,#693b50,#a46b83);color:white;padding:20px 16px}
+.header-inner{max-width:1100px;margin:auto}
 header h1{font-family:Georgia,serif;font-size:26px;margin:0 0 5px}
 header p{margin:0;opacity:.9;font-size:13px}
-main{max-width:1050px;margin:auto;padding:15px}
-.panel,.work-card{
-  background:white;border:1px solid var(--border);
-  border-radius:14px;padding:16px;margin:13px 0;
-  box-shadow:0 3px 12px #5530440a;
-}
-h2{font-size:19px;margin:0 0 13px}
-h3{font-size:16px;margin:0}
+main{max-width:1100px;margin:auto;padding:15px}
+.panel,.work-card{background:white;border:1px solid var(--border);border-radius:14px;padding:16px;margin:13px 0;box-shadow:0 3px 12px #5530440a}
+h2{font-size:19px;margin:0 0 13px}h3{font-size:16px;margin:0}
 p{line-height:1.5}
 label{display:block;font-weight:bold;font-size:13px;margin:12px 0 5px}
-input,select,textarea{
-  display:block;width:100%;padding:11px;
-  border:1px solid #ddcbd4;border-radius:9px;
-  background:white;color:var(--text);font:inherit;
-}
+input,select,textarea{display:block;width:100%;padding:11px;border:1px solid #ddcbd4;border-radius:9px;background:white;color:var(--text);font:inherit}
 textarea{min-height:75px;resize:vertical}
-button{
-  background:var(--primary);color:white;border:0;
-  padding:11px 15px;border-radius:9px;font-weight:bold;
-  cursor:pointer;margin:6px 5px 0 0;
-}
+button{background:var(--primary);color:white;border:0;padding:11px 15px;border-radius:9px;font-weight:bold;cursor:pointer;margin:6px 5px 0 0}
 button.secondary{background:var(--pink);color:var(--primary);border:1px solid var(--border)}
 button.danger{background:#a53c4a}
 button:disabled{opacity:.5;cursor:wait}
-.small{font-size:12px;color:var(--muted)}
-.muted{color:var(--muted)}
-.hidden{display:none!important}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row>*{flex:1;min-width:130px}
+.small{font-size:12px;color:var(--muted)}.muted{color:var(--muted)}.hidden{display:none!important}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:130px}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-.choice{
-  display:flex;align-items:center;gap:8px;
-  background:#fcf8fa;border:1px solid var(--border);
-  padding:9px;border-radius:8px;font-weight:normal;margin:0;
-}
+.choice{display:flex;align-items:center;gap:8px;background:#fcf8fa;border:1px solid var(--border);padding:9px;border-radius:8px;font-weight:normal;margin:0}
 .choice input{width:auto;margin:0}
-.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
-.tabs button{margin:0}
-.tabs button.active{background:var(--primary-dark)}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}.tabs button{margin:0}.tabs button.active{background:var(--primary-dark)}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.stat{background:var(--pink);padding:12px;border-radius:10px}
-.stat strong{display:block;font-size:22px;color:var(--primary)}
-.stat span{font-size:11px;color:var(--muted)}
-.badge{
-  display:inline-block;background:var(--pink);color:var(--primary);
-  border-radius:20px;padding:5px 9px;font-size:11px;margin:3px 3px 3px 0;
-}
-.badge.red{background:#fdecef;color:var(--red)}
-.badge.green{background:#e9f5ee;color:var(--green)}
+.stat{background:var(--pink);padding:12px;border-radius:10px}.stat strong{display:block;font-size:22px;color:var(--primary)}.stat span{font-size:11px;color:var(--muted)}
+.badge{display:inline-block;background:var(--pink);color:var(--primary);border-radius:20px;padding:5px 9px;font-size:11px;margin:3px 3px 3px 0}
+.badge.red{background:#fdecef;color:var(--red)}.badge.green{background:#e9f5ee;color:var(--green)}
 .topline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.work-card p{font-size:13px;margin:7px 0;overflow-wrap:anywhere}
-.work-card strong{color:#5c414e}
+.work-card p{font-size:13px;margin:7px 0;overflow-wrap:anywhere}.work-card strong{color:#5c414e}
 .photo{width:75px;height:75px;object-fit:cover;border-radius:8px;margin:5px}
 #message{padding:11px;background:#fff4e7;color:#754b21;border-radius:9px;white-space:pre-wrap;margin:12px 0}
-#message.success{background:#e9f5ee;color:#246a48}
-#message.error{background:#fdecef;color:#9b3140}
+#message.success{background:#e9f5ee;color:#246a48}#message.error{background:#fdecef;color:#9b3140}
+.garment-config{border:1px solid var(--border);border-radius:11px;padding:12px;margin:10px 0;background:#fff}
+.garment-config h3{color:var(--primary-dark);margin-bottom:8px}
+.table-wrap{overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-size:13px}
+.data-table th,.data-table td{padding:9px;border-bottom:1px solid var(--border);text-align:left;vertical-align:top}
+.data-table th{background:#fcf8fa}
 footer{text-align:center;padding:25px;color:var(--muted);font-size:11px}
-@media(max-width:520px){
-  main{padding:9px}
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .grid{grid-template-columns:1fr 1fr}
-  header h1{font-size:23px}
-}
+@media(max-width:520px){main{padding:9px}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}header h1{font-size:23px}.data-table{min-width:560px}}
 </style>
 </head>
-
 <body>
-<header>
-  <div class="header-inner">
-    <h1>work tracker</h1>
-    <p>Work Tracker · Orders, tasks and team updates</p>
-  </div>
-</header>
-
+<header><div class="header-inner"><h1>Work Tracker</h1><p>Orders, tasks and team updates</p></div></header>
 <main>
-  <div id="message" class="hidden"></div>
+<div id="message" class="hidden"></div>
 
-  <!-- SIGN IN -->
-  <section id="loginPanel" class="panel">
-    <h2>Welcome to work tracker</h2>
-    <p class="muted">Sign in using your own Google account to access the work tracker.</p>
-    <button id="loginButton">Sign in with Google</button>
-  </section>
+<section id="loginPanel" class="panel">
+  <h2>Welcome to Work Tracker</h2>
+  <p class="muted">Sign in using your own Google account to access Work Tracker.</p>
+  <button id="loginButton">Sign in with Google</button>
+</section>
 
-  <!-- STAFF WAITING FOR APPROVAL -->
-  <section id="pendingPanel" class="panel hidden">
-    <h2>Approval pending</h2>
-    <p>Your account has been registered. Please wait for the owner to approve your access.</p>
-    <p id="pendingEmail" class="small"></p>
-    <button class="secondary" id="pendingSignOut">Sign out</button>
-  </section>
+<section id="pendingPanel" class="panel hidden">
+  <h2>Approval pending</h2>
+  <p>Your account has been registered. Please wait for the owner to approve your access.</p>
+  <p id="pendingEmail" class="small"></p>
+  <button class="secondary" id="pendingSignOut">Sign out</button>
+</section>
 
-  <!-- MAIN APPLICATION -->
-  <section id="appPanel" class="hidden">
-    <div class="panel">
-      <div class="topline">
-        <div>
-          <h2 id="welcomeTitle">Dashboard</h2>
-          <div id="accountInfo" class="small"></div>
-        </div>
-        <button class="secondary" id="signOutButton">Sign out</button>
-      </div>
-
-      <div class="stats" id="stats"></div>
-
-      <div class="tabs">
-        <button class="active" data-tab="dashboardTab">Dashboard</button>
-        <button data-tab="registerTab">Work register</button>
-        <button id="staffTabButton" data-tab="staffTab" class="hidden">Staff</button>
-      </div>
+<section id="appPanel" class="hidden">
+  <div class="panel">
+    <div class="topline">
+      <div><h2 id="welcomeTitle">Dashboard</h2><div id="accountInfo" class="small"></div></div>
+      <button class="secondary" id="signOutButton">Sign out</button>
     </div>
+    <div class="stats" id="stats"></div>
+    <div class="tabs">
+      <button data-tab="dashboardTab" id="dashboardTabButton" class="active">Dashboard</button>
+      <button data-tab="registerTab" id="registerTabButton">Work Register</button>
+      <button data-tab="customersTab" id="customersTabButton">Customer Details</button>
+      <button data-tab="paymentsTab" id="paymentsTabButton">Payments</button>
+      <button data-tab="incomeTab" id="incomeTabButton">Income</button>
+      <button data-tab="staffTab" id="staffTabButton" class="hidden">Staff</button>
+    </div>
+  </div>
 
-    <!-- DASHBOARD -->
-    <section id="dashboardTab" class="tab-content">
-      <div class="panel">
-        <h2>Upcoming reminders</h2>
-        <p class="small">Work due within the next three days and overdue work.</p>
-        <div id="reminders"></div>
-      </div>
-      <div class="panel">
-        <h2>Recent work</h2>
-        <div id="recentWork"></div>
-      </div>
-    </section>
-
-    <!-- WORK REGISTER -->
-    <section id="registerTab" class="tab-content hidden">
-      <div id="addWorkPanel" class="panel hidden">
-        <h2>Add new customer work</h2>
-        <form id="workForm">
-          <label>Customer name *</label>
-          <input id="clientName" required maxlength="100" placeholder="Customer name">
-
-          <div class="row">
-            <div>
-              <label>Phone number</label>
-              <input id="phone" type="tel" maxlength="25" placeholder="Customer phone">
-            </div>
-            <div>
-              <label>Order date *</label>
-              <input id="orderDate" type="date" required>
-            </div>
-          </div>
-
-          <label>Garment *</label>
-          <select id="garment" required>
-            <option value="">Select garment</option>
-            <option>Saree</option>
-            <option>Blouse</option>
-            <option>Kurta</option>
-            <option>Pant</option>
-            <option>Skirt</option>
-            <option>Dupatta</option>
-            <option>Dhoti</option>
-          </select>
-
-          <label>Tasks required *</label>
-          <div id="taskChoices" class="grid">
-            <span class="small">Select a garment first.</span>
-          </div>
-
-          <label>Work description / design details</label>
-          <textarea id="description" placeholder="Fabric, colour, design and instructions"></textarea>
-
-          <label>Task assigned to (select multiple staff)</label>
-          <div id="staffChoices" class="grid">
-            <span class="small">Loading approved staff...</span>
-          </div>
-
-          <div class="row">
-            <div>
-              <label>Date given for work *</label>
-              <input id="dateGiven" type="date" required>
-            </div>
-            <div>
-              <label>Due date</label>
-              <input id="dueDate" type="date">
-            </div>
-          </div>
-
-          <label>Work status</label>
-          <select id="status">
-            <option>Pending</option>
-            <option>Given for Work</option>
-            <option>In Progress</option>
-            <option>Received</option>
-            <option>Completed</option>
-          </select>
-
-          <label>Notes / pending instructions</label>
-          <textarea id="notes" placeholder="Additional instructions or pending details"></textarea>
-
-          <label>Order / measurement photos</label>
-          <input id="photos" type="file" accept="image/*" multiple>
-          <p class="small">Photo uploads require Firebase Storage to be enabled.</p>
-
-          <button type="submit" id="saveButton">Save customer work</button>
-        </form>
-      </div>
-
-      <div class="panel">
-        <div class="topline">
-          <h2>Work register</h2>
-          <select id="statusFilter" style="max-width:155px">
-            <option value="">All statuses</option>
-            <option>Pending</option>
-            <option>Given for Work</option>
-            <option>In Progress</option>
-            <option>Received</option>
-            <option>Completed</option>
-            <option>Overdue</option>
-          </select>
-        </div>
-        <label>Search work</label>
-        <input id="searchBox" placeholder="Search customer, phone, garment or task">
-        <div id="workList">Loading records...</div>
-      </div>
-    </section>
-
-    <!-- STAFF MANAGEMENT -->
-    <section id="staffTab" class="tab-content hidden">
-      <div class="panel">
-        <h2>Staff accounts</h2>
-        <p class="small">Approve only staff members you recognise. Staff must sign in with Google before appearing in this list.</p>
-        <div id="staffList">Loading staff...</div>
-      </div>
-    </section>
+  <section id="dashboardTab" class="tab-content">
+    <div class="panel"><h2>Upcoming reminders</h2><p class="small">Work due within the next three days and overdue work.</p><div id="reminders"></div></div>
+    <div class="panel"><h2>Recent work</h2><div id="recentWork"></div></div>
   </section>
-</main>
 
+  <section id="registerTab" class="tab-content hidden">
+    <div id="addWorkPanel" class="panel hidden">
+      <h2>Add new customer order</h2>
+      <form id="workForm">
+        <label>Customer name *</label><input id="clientName" required maxlength="100" placeholder="Customer name">
+        <div class="row">
+          <div><label>Phone number</label><input id="phone" type="tel" maxlength="25" placeholder="Customer phone"></div>
+          <div><label>Order date *</label><input id="orderDate" type="date" required></div>
+        </div>
+        <label>Garments in this order *</label>
+        <div id="garmentChoices" class="grid">
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Saree">Saree</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Blouse">Blouse</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Kurta">Kurta</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Pant">Pant</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Skirt">Skirt</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Dupatta">Dupatta</label>
+          <label class="choice"><input type="checkbox" name="garmentChoice" value="Dhoti">Dhoti</label>
+        </div>
+        <div id="garmentTaskSections"><p class="small">Select one or more garments to enter their individual tasks and details.</p></div>
+        <label>Common order description / design details</label>
+        <textarea id="description" placeholder="Fabric, colour, design and instructions for the order"></textarea>
+        <label>Order / measurement photos</label><input id="photos" type="file" accept="image/*" multiple>
+        <p class="small">Optional. Photo uploads require Firebase Storage to be enabled and its rules to be published.</p>
+        <button type="submit" id="saveButton">Save customer order</button>
+      </form>
+    </div>
+    <div class="panel">
+      <div class="topline"><h2>Work Register</h2>
+        <select id="statusFilter" style="max-width:160px"><option value="">All statuses</option><option>Pending</option><option>Given for Work</option><option>In Progress</option><option>Received</option><option>Completed</option><option>Overdue</option></select>
+      </div>
+      <label>Search work</label><input id="searchBox" placeholder="Search customer, phone, garment, task or staff">
+      <div id="workList">Loading records...</div>
+    </div>
+  </section>
+
+  <section id="customersTab" class="tab-content hidden">
+    <div class="panel">
+      <h2>Customer Details</h2>
+      <form id="customerForm">
+        <div class="row"><div><label>Customer name *</label><input id="customerName" required maxlength="100"></div><div><label>Phone number</label><input id="customerPhone" type="tel" maxlength="25"></div></div>
+        <label>Address</label><textarea id="customerAddress"></textarea>
+        <label>Notes</label><textarea id="customerNotes"></textarea>
+        <button type="submit" id="saveCustomerButton">Save customer</button>
+      </form>
+    </div>
+    <div class="panel"><h2>Customer list</h2><label>Search customers</label><input id="customerSearch" placeholder="Search by name or phone"><div id="customerList"></div></div>
+  </section>
+
+  <section id="paymentsTab" class="tab-content hidden">
+    <div class="panel">
+      <h2>Payments</h2>
+      <form id="paymentForm">
+        <div class="row"><div><label>Customer name *</label><input id="paymentCustomer" required></div><div><label>Phone number</label><input id="paymentPhone" type="tel"></div></div>
+        <div class="row"><div><label>Payment date *</label><input id="paymentDate" type="date" required></div><div><label>Total order amount (₹)</label><input id="paymentTotal" type="number" min="0" step="0.01"></div></div>
+        <div class="row"><div><label>Amount received now (₹) *</label><input id="paymentReceived" type="number" min="0" step="0.01" required></div><div><label>Payment method</label><select id="paymentMethod"><option>Cash</option><option>UPI</option><option>Bank transfer</option><option>Card</option><option>Other</option></select></div></div>
+        <label>Notes</label><textarea id="paymentNotes"></textarea>
+        <button type="submit" id="savePaymentButton">Save payment</button>
+      </form>
+    </div>
+    <div class="panel"><h2>Payment history</h2><label>Search payments</label><input id="paymentSearch" placeholder="Search customer or phone"><div id="paymentList"></div></div>
+  </section>
+
+  <section id="incomeTab" class="tab-content hidden">
+    <div class="panel">
+      <h2>Income Register</h2>
+      <form id="incomeForm">
+        <div class="row"><div><label>Date *</label><input id="incomeDate" type="date" required></div><div><label>Customer name *</label><input id="incomeCustomer" required></div></div>
+        <label>Total amount (₹) *</label><input id="incomeTotal" type="number" min="0" step="0.01" required>
+        <div class="row"><div><label>Advance payment received (₹)</label><input id="incomeAdvance" type="number" min="0" step="0.01" value="0"></div><div><label>Balance payment received (₹)</label><input id="incomeBalance" type="number" min="0" step="0.01" value="0"></div></div>
+        <p class="small">If there was no advance, leave it as 0. Total paid is calculated as advance plus balance payment received.</p>
+        <label>Notes</label><textarea id="incomeNotes"></textarea>
+        <button type="submit" id="saveIncomeButton">Save income</button>
+      </form>
+    </div>
+    <div class="panel"><h2>Income history</h2><label>Search income</label><input id="incomeSearch" placeholder="Search customer"><div id="incomeList"></div></div>
+  </section>
+
+  <section id="staffTab" class="tab-content hidden">
+    <div class="panel"><h2>Staff accounts</h2><p class="small">Approve only staff members you recognise. Staff must sign in with Google before appearing here.</p><div id="staffList">Loading staff...</div></div>
+  </section>
+</section>
+</main>
 <footer>Work Tracker</footer>
 
-<!-- FIREBASE LIBRARIES -->
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-storage-compat.js"></script>
-
 <script>
-// ======================================================
-// 1. FIREBASE CONFIGURATION
-// ======================================================
+"use strict";
 
+// FIREBASE CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyC19DHIJayjhxwPB0AyldX0b28qg1KEtlc",
   authDomain: "work-tracker-44ff9.firebaseapp.com",
@@ -284,24 +191,26 @@ const firebaseConfig = {
   appId: "1:737691536388:web:38dd297de7e3f0f1a5b951"
 };
 
-// ======================================================
-// 2. OWNER ACCOUNT
-// ======================================================
+// OWNER EMAIL
 const OWNER_EMAIL = "khushijain4004@gmail.com";
 
-// ======================================================
-// 3. START FIREBASE
-// ======================================================
+// ADD PADMA'S GOOGLE EMAIL HERE LATER, IN LOWERCASE.
+// Also update the matching PADMA_EMAIL value in Firestore Rules before granting access.
+const PADMA_EMAIL = "padmashreenivas27@gmail.com";
+
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
-
 const $ = id => document.getElementById(id);
+
 let currentUser = null;
 let currentProfile = null;
 let staffCache = [];
 let workCache = [];
+let customerCache = [];
+let paymentCache = [];
+let incomeCache = [];
 let currentTab = "dashboardTab";
 
 const tasksByGarment = {
@@ -313,572 +222,493 @@ const tasksByGarment = {
   Dupatta: ["Cutting", "Stitching", "Embroidery"],
   Dhoti: ["Cutting", "Stitching", "Embroidery"]
 };
-
-const statuses = [
-  "Pending", "Given for Work", "In Progress",
-  "Received", "Completed"
-];
+const statuses = ["Pending","Given for Work","In Progress","Received","Completed"];
 
 function isOwner(user = currentUser) {
-  return !!user?.email &&
-    user.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+  return !!user?.email && user.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
 }
-
+function isPadma(user = currentUser) {
+  return !!PADMA_EMAIL && !!user?.email &&
+    user.email.toLowerCase() === PADMA_EMAIL.toLowerCase() &&
+    currentProfile?.role === "staff" && currentProfile?.status === "active";
+}
+function canSeeFinance() { return isOwner() || isPadma(); }
+function canSeeWork() {
+  return isOwner() || (!!currentProfile && currentProfile.role === "staff" &&
+    currentProfile.status === "active" && !isPadma());
+}
 function showMessage(text, type = "") {
-  const el = $("message");
-  el.textContent = text;
-  el.className = type;
+  const el = $("message"); el.textContent = text; el.className = type;
 }
-function clearMessage() {
-  $("message").textContent = "";
-  $("message").className = "hidden";
-}
+function clearMessage() { $("message").textContent = ""; $("message").className = "hidden"; }
 function safe(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;",
-    '"':"&quot;", "'":"&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[c]);
 }
 function showScreen(id) {
-  ["loginPanel", "pendingPanel", "appPanel"].forEach(x =>
-    $(x).classList.add("hidden")
-  );
+  ["loginPanel","pendingPanel","appPanel"].forEach(x => $(x).classList.add("hidden"));
   $(id).classList.remove("hidden");
 }
 function todayString() {
-  const d = new Date();
-  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 10);
+  const d = new Date(); const local = new Date(d.getTime() - d.getTimezoneOffset()*60000);
+  return local.toISOString().slice(0,10);
 }
 function effectiveStatus(work) {
-  if (work.status !== "Completed" && work.dueDate &&
-      work.dueDate < todayString()) return "Overdue";
+  if (work.status !== "Completed" && work.dueDate && work.dueDate < todayString()) return "Overdue";
   return work.status || "Pending";
 }
-function escapeFileName(name) {
-  return name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(0, 90);
+function money(value) {
+  return "₹" + Number(value || 0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
+function escapeFileName(name) { return name.replace(/[^a-zA-Z0-9._-]/g,"_").slice(0,90); }
+function dateSort(a,b,key) { return String(b[key]||"").localeCompare(String(a[key]||"")); }
 
-// ======================================================
-// 4. GOOGLE SIGN-IN
-// ======================================================
+// GOOGLE SIGN-IN
 $("loginButton").onclick = async () => {
   clearMessage();
-  try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider);
-  } catch (error) {
-    showMessage("Google sign-in failed: " + error.message, "error");
-  }
+  try { await auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()); }
+  catch (error) { showMessage("Google sign-in failed: " + error.message,"error"); }
 };
-
 $("signOutButton").onclick = () => auth.signOut();
 $("pendingSignOut").onclick = () => auth.signOut();
 
-// ======================================================
-// 5. AUTHENTICATION AND ACCOUNT APPROVAL
-// ======================================================
+// AUTHENTICATION AND APPROVAL
 auth.onAuthStateChanged(async user => {
   currentUser = user;
-  if (!user) {
-    currentProfile = null;
-    showScreen("loginPanel");
-    return;
-  }
-
+  if (!user) { currentProfile = null; showScreen("loginPanel"); return; }
   clearMessage();
-
   try {
     const profileRef = db.collection("users").doc(user.uid);
     const profileSnap = await profileRef.get();
-
     if (isOwner(user)) {
-      await profileRef.set({
-        name: user.displayName || "Owner",
-        email: user.email,
-        role: "owner",
-        status: "active"
-      }, { merge: true });
-
-      currentProfile = { role: "owner", status: "active" };
-      await openApplication();
-      return;
+      await profileRef.set({name:user.displayName||"Owner",email:user.email,role:"owner",status:"active"},{merge:true});
+      currentProfile = {role:"owner",status:"active"};
+      await openApplication(); return;
     }
-
     if (!profileSnap.exists) {
-      await profileRef.set({
-        name: user.displayName || "Staff",
-        email: user.email,
-        role: "staff",
-        status: "pending"
-      });
+      await profileRef.set({name:user.displayName||"Staff",email:user.email,role:"staff",status:"pending"});
     }
-
     const latest = await profileRef.get();
     currentProfile = latest.data();
-
-    if (currentProfile.status !== "active" ||
-        currentProfile.role !== "staff") {
-      $("pendingEmail").textContent =
-        user.email + " · Waiting for owner approval";
-      showScreen("pendingPanel");
-      return;
+    if (currentProfile.status !== "active" || currentProfile.role !== "staff") {
+      $("pendingEmail").textContent = user.email + " · Waiting for owner approval";
+      showScreen("pendingPanel"); return;
     }
-
     await openApplication();
   } catch (error) {
-    showMessage(
-      "Could not open your account. Please check Firebase security rules. " +
-      error.message, "error"
-    );
+    showMessage("Could not open your account. Please check Firebase security rules. " + error.message,"error");
   }
 });
 
-// ======================================================
-// 6. OPEN APPLICATION
-// ======================================================
+// APP ACCESS AND TABS
 async function openApplication() {
   showScreen("appPanel");
-  $("welcomeTitle").textContent =
-    isOwner() ? "Owner dashboard" : "Staff dashboard";
+  $("welcomeTitle").textContent = isOwner() ? "Owner dashboard" : (isPadma() ? "Finance dashboard" : "Staff dashboard");
   $("accountInfo").textContent = currentUser.email;
-
-  $("addWorkPanel").classList.toggle("hidden", !isOwner());
+  $("dashboardTabButton").classList.toggle("hidden", !canSeeWork());
+  $("registerTabButton").classList.toggle("hidden", !canSeeWork());
+  $("customersTabButton").classList.toggle("hidden", !isOwner());
+  $("paymentsTabButton").classList.toggle("hidden", !canSeeFinance());
+  $("incomeTabButton").classList.toggle("hidden", !canSeeFinance());
   $("staffTabButton").classList.toggle("hidden", !isOwner());
+  $("addWorkPanel").classList.toggle("hidden", !isOwner());
 
-  await loadStaff();
-  await loadWork();
-  selectTab("dashboardTab");
+  if (isOwner()) await loadStaff();
+  if (canSeeWork()) await loadWork();
+  if (isOwner()) await loadCustomers();
+  if (canSeeFinance()) await loadFinance();
+  if (isOwner()) selectTab("dashboardTab");
+  else if (isPadma()) selectTab("paymentsTab");
+  else selectTab("dashboardTab");
 }
-
 function selectTab(tab) {
+  const allowed = {
+    dashboardTab:canSeeWork(), registerTab:canSeeWork(), customersTab:isOwner(),
+    paymentsTab:canSeeFinance(), incomeTab:canSeeFinance(), staffTab:isOwner()
+  };
+  if (!allowed[tab]) return;
   currentTab = tab;
-  document.querySelectorAll(".tab-content").forEach(el =>
-    el.classList.add("hidden")
-  );
+  document.querySelectorAll(".tab-content").forEach(el => el.classList.add("hidden"));
   $(tab).classList.remove("hidden");
-
   document.querySelectorAll(".tabs button[data-tab]").forEach(btn =>
-    btn.classList.toggle("active", btn.dataset.tab === tab)
-  );
+    btn.classList.toggle("active",btn.dataset.tab===tab));
 }
 document.querySelectorAll(".tabs button[data-tab]").forEach(btn => {
   btn.onclick = () => selectTab(btn.dataset.tab);
 });
 
-// ======================================================
-// 7. GARMENT TASK SELECTION
-// ======================================================
-$("garment").onchange = () => {
-  const garment = $("garment").value;
-  const tasks = tasksByGarment[garment] || [];
-
-  $("taskChoices").innerHTML = tasks.map(task => `
-    <label class="choice">
-      <input type="checkbox" name="taskChoice" value="${safe(task)}">
-      ${safe(task)}
-    </label>
-  `).join("") || '<span class="small">Select a garment first.</span>';
-};
-
-// ======================================================
-// 8. LOAD STAFF
-// ======================================================
-async function loadStaff() {
-  if (!isOwner()) {
-    $("staffChoices").innerHTML =
-      '<span class="small">Only the owner can assign staff.</span>';
+// GARMENT-SPECIFIC TASK AND ASSIGNMENT PANELS
+function selectedGarments() {
+  return [...document.querySelectorAll('input[name="garmentChoice"]:checked')].map(el=>el.value);
+}
+function renderGarmentTaskSections() {
+  const selected = selectedGarments();
+  if (!selected.length) {
+    $("garmentTaskSections").innerHTML = '<p class="small">Select one or more garments to enter their individual tasks and details.</p>';
     return;
   }
+  $("garmentTaskSections").innerHTML = selected.map(garment => {
+    const tasks = (tasksByGarment[garment]||[]).map(task => `
+      <label class="choice"><input type="checkbox" name="task_${safe(garment)}" value="${safe(task)}">${safe(task)}</label>
+    `).join("");
+    const staff = staffCache.filter(s=>s.role==="staff"&&s.status==="active").map(s=>`
+      <label class="choice"><input type="checkbox" name="assigned_${safe(garment)}" value="${safe(s.uid)}">${safe(s.name||s.email)}</label>
+    `).join("") || '<span class="small">No approved staff accounts yet.</span>';
+    return `<div class="garment-config" data-garment="${safe(garment)}">
+      <h3>${safe(garment)} — individual work details</h3>
+      <label>Tasks required for ${safe(garment)} *</label><div class="grid">${tasks}</div>
+      <label>Assign ${safe(garment)} work to (select multiple staff)</label><div class="grid">${staff}</div>
+      <div class="row">
+        <div><label>Date given for ${safe(garment)} *</label><input type="date" data-date-given="${safe(garment)}" value="${todayString()}" required></div>
+        <div><label>Due date</label><input type="date" data-due-date="${safe(garment)}"></div>
+      </div>
+      <label>${safe(garment)} work status</label>
+      <select data-status="${safe(garment)}">${statuses.map(s=><option>${safe(s)}</option>).join("")}</select>
+      <label>${safe(garment)} notes / pending instructions</label>
+      <textarea data-notes="${safe(garment)}" placeholder="Instructions or pending details for ${safe(garment)}"></textarea>
+    </div>`;
+  }).join("");
+}
+document.querySelectorAll('input[name="garmentChoice"]').forEach(el=>el.addEventListener("change",renderGarmentTaskSections));
 
+// STAFF MANAGEMENT
+async function loadStaff() {
+  if (!isOwner()) return;
   try {
     const snap = await db.collection("users").get();
-    staffCache = snap.docs.map(d => ({ uid: d.id, ...d.data() }));
-
-    const staff = staffCache.filter(s =>
-      s.role === "staff" && s.status === "active"
-    );
-    const pending = staffCache.filter(s =>
-      s.role === "staff" && s.status === "pending"
-    );
-
-    $("staffChoices").innerHTML = staff.map(s => `
-      <label class="choice">
-        <input type="checkbox" name="assignedStaff" value="${safe(s.uid)}">
-        ${safe(s.name || s.email)}
-      </label>
-    `).join("") || '<span class="small">No approved staff yet.</span>';
-
+    staffCache = snap.docs.map(d=>({uid:d.id,...d.data()}));
+    const staff = staffCache.filter(s=>s.role==="staff"&&s.status==="active");
+    const pending = staffCache.filter(s=>s.role==="staff"&&s.status==="pending");
+    renderGarmentTaskSections();
     $("staffList").innerHTML =
-      (pending.length ? "<h3>Waiting for approval</h3>" +
-        pending.map(s => `
-          <div class="work-card">
-            <strong>${safe(s.name || "Staff member")}</strong>
-            <p>${safe(s.email)}</p>
-            <button onclick="approveStaff('${safe(s.uid)}')">Approve staff</button>
-          </div>
-        `).join("") : "<p class='small'>No pending requests.</p>") +
-      "<h3>Approved staff</h3>" +
-      (staff.map(s => `
-        <div class="work-card">
-          <strong>${safe(s.name || "Staff member")}</strong>
-          <p class="small">${safe(s.email)}</p>
-          <button class="danger" onclick="deactivateStaff('${safe(s.uid)}')">
-            Deactivate
-          </button>
-        </div>
-      `).join("") || "<p class='small'>No approved staff.</p>");
-  } catch (error) {
-    showMessage("Could not load staff: " + error.message, "error");
-  }
+      (pending.length ? "<h3>Waiting for approval</h3>"+pending.map(s=>`
+        <div class="work-card"><strong>${safe(s.name||"Staff member")}</strong><p>${safe(s.email)}</p>
+        <button onclick="approveStaff('${safe(s.uid)}')">Approve staff</button></div>`).join("") : "<p class='small'>No pending requests.</p>")+
+      "<h3>Approved staff</h3>"+
+      (staff.map(s=>`<div class="work-card"><strong>${safe(s.name||"Staff member")}</strong><p class="small">${safe(s.email)}</p>
+        <button class="danger" onclick="deactivateStaff('${safe(s.uid)}')">Deactivate</button></div>`).join("")||"<p class='small'>No approved staff.</p>");
+  } catch(error) { showMessage("Could not load staff: "+error.message,"error"); }
 }
-
 window.approveStaff = async uid => {
-  if (!isOwner()) return;
-  try {
-    await db.collection("users").doc(uid).update({
-      role: "staff", status: "active"
-    });
-    await loadStaff();
-    showMessage("Staff member approved.", "success");
-  } catch (error) {
-    showMessage("Approval failed: " + error.message, "error");
-  }
+  if(!isOwner())return;
+  try { await db.collection("users").doc(uid).update({role:"staff",status:"active"}); await loadStaff(); showMessage("Staff member approved.","success"); }
+  catch(error){showMessage("Approval failed: "+error.message,"error");}
 };
-
 window.deactivateStaff = async uid => {
-  if (!isOwner()) return;
-  if (!confirm("Deactivate this staff account?")) return;
-  try {
-    await db.collection("users").doc(uid).update({ status: "inactive" });
-    await loadStaff();
-    showMessage("Staff account deactivated.", "success");
-  } catch (error) {
-    showMessage("Could not deactivate staff: " + error.message, "error");
-  }
+  if(!isOwner()||!confirm("Deactivate this staff account?"))return;
+  try { await db.collection("users").doc(uid).update({status:"inactive"}); await loadStaff(); showMessage("Staff account deactivated.","success"); }
+  catch(error){showMessage("Could not deactivate staff: "+error.message,"error");}
 };
 
-// ======================================================
-// 9. CREATE CUSTOMER WORK
-// ======================================================
-$("orderDate").value = todayString();
-$("dateGiven").value = todayString();
-
-$("workForm").onsubmit = async event => {
+// CREATE CUSTOMER ORDER: one work_register document per garment, sharing an orderId.
+$("orderDate").value=todayString();
+$("workForm").onsubmit=async event=>{
   event.preventDefault();
-  if (!isOwner()) return;
-
-  const tasks = [...document.querySelectorAll(
-    'input[name="taskChoice"]:checked'
-  )].map(el => el.value);
-
-  const assigned = [...document.querySelectorAll(
-    'input[name="assignedStaff"]:checked'
-  )].map(el => el.value);
-
-  if (!tasks.length) {
-    showMessage("Select at least one task.", "error");
-    return;
+  if(!isOwner())return;
+  const garments=selectedGarments();
+  if(!garments.length){showMessage("Select at least one garment.","error");return;}
+  const clientName=$("clientName").value.trim();
+  const orderDate=$("orderDate").value;
+  if(!clientName||!orderDate){showMessage("Enter customer name and order date.","error");return;}
+  const prepared=[];
+  for(const garment of garments){
+    const tasks=[...document.querySelectorAll(input[name="task_${garment}"]:checked)].map(x=>x.value);
+    const assigned=[...document.querySelectorAll(input[name="assigned_${garment}"]:checked)].map(x=>x.value);
+    const dateGiven=$([data-date-given="${garment}"])?.value||"";
+    if(!tasks.length){showMessage(Select at least one task for ${garment}.,"error");return;}
+    if(!dateGiven){showMessage(Enter the date given for ${garment}.,"error");return;}
+    prepared.push({
+      garment,tasks,assigned,
+      assignedNames:staffCache.filter(s=>assigned.includes(s.uid)).map(s=>s.name||s.email),
+      dateGiven,
+      dueDate:$([data-due-date="${garment}"])?.value||"",
+      status:$([data-status="${garment}"])?.value||"Pending",
+      notes:$([data-notes="${garment}"])?.value.trim()||""
+    });
   }
-
-  const record = {
-    clientName: $("clientName").value.trim(),
-    phone: $("phone").value.trim(),
-    orderDate: $("orderDate").value,
-    garment: $("garment").value,
-    tasks,
-    description: $("description").value.trim(),
-    assignedTo: assigned,
-    assignedNames: staffCache
-      .filter(s => assigned.includes(s.uid))
-      .map(s => s.name || s.email),
-    dateGiven: $("dateGiven").value,
-    dueDate: $("dueDate").value,
-    status: $("status").value,
-    dateReceived: "",
-    notes: $("notes").value.trim(),
-    photoPaths: [],
-    createdBy: currentUser.uid,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-
-  if (!record.clientName || !record.garment ||
-      !record.orderDate || !record.dateGiven) {
-    showMessage("Please complete all required fields.", "error");
-    return;
+  const files=[...$("photos").files];
+  if(files.length>5){showMessage("Please select no more than 5 photos per order.","error");return;}
+  if(files.some(f=>!f.type.startsWith("image/")||f.size>5*1024*1024)){
+    showMessage("Choose image files smaller than 5 MB each.","error");return;
   }
-
-  const files = [...$("photos").files];
-  if (files.length > 5) {
-    showMessage("Please select no more than 5 photos per work record.", "error");
-    return;
-  }
-
-  $("saveButton").disabled = true;
-
-  try {
-    const docRef = await db.collection("work_register").add(record);
-    const paths = [];
-
-    for (const file of files) {
-      if (!file.type.startsWith("image/")) continue;
-      if (file.size > 5 * 1024 * 1024) {
-        throw new Error("Each photo must be smaller than 5 MB.");
+  $("saveButton").disabled=true;
+  try{
+    const orderId=db.collection("work_register").doc().id;
+    for(const item of prepared){
+      const docRef=db.collection("work_register").doc();
+      const record={
+        orderId,clientName,phone:$("phone").value.trim(),orderDate,garment:item.garment,
+        tasks:item.tasks,description:$("description").value.trim(),
+        assignedTo:item.assigned,assignedNames:item.assignedNames,
+        dateGiven:item.dateGiven,dueDate:item.dueDate,status:item.status,dateReceived:"",
+        notes:item.notes,photoPaths:[],createdBy:currentUser.uid,
+        createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt:firebase.firestore.FieldValue.serverTimestamp()
+      };
+      await docRef.set(record);
+      if(files.length){
+        const paths=[];
+        for(const file of files){
+          const path="work_photos/"+docRef.id+"/"+Date.now()+"_"+escapeFileName(file.name);
+          await storage.ref().child(path).put(file);
+          paths.push(path);
+        }
+        await docRef.update({photoPaths:paths,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
       }
-
-      const path = "work_photos/" + docRef.id + "/" +
-        Date.now() + "_" + escapeFileName(file.name);
-      const ref = storage.ref().child(path);
-      await ref.put(file);
-      paths.push(path);
     }
-
-    if (paths.length) {
-      await docRef.update({
-        photoPaths: paths,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-    }
-
-    $("workForm").reset();
-    $("orderDate").value = todayString();
-    $("dateGiven").value = todayString();
-    $("taskChoices").innerHTML =
-      '<span class="small">Select a garment first.</span>';
-
+    $("workForm").reset();$("orderDate").value=todayString();renderGarmentTaskSections();
     await loadWork();
-    showMessage("Customer work saved successfully.", "success");
-  } catch (error) {
-    showMessage("Could not save work: " + error.message, "error");
-  } finally {
-    $("saveButton").disabled = false;
-  }
+    showMessage(Customer order saved successfully (${prepared.length} garment${prepared.length===1?"":"s"}).,"success");
+  }catch(error){showMessage("Could not fully save the order: "+error.message+". Check whether the records were created before retrying.","error");}
+  finally{$("saveButton").disabled=false;}
 };
 
-// ======================================================
-// 10. LOAD WORK RECORDS
-// ======================================================
-async function loadWork() {
-  try {
-    let query = db.collection("work_register");
-
-    if (!isOwner()) {
-      query = query.where(
-        "assignedTo", "array-contains", currentUser.uid
-      );
-    }
-
-    const snap = await query.get();
-    workCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-    renderWork();
-    renderDashboard();
-  } catch (error) {
-    $("workList").textContent =
-      "Could not load work records: " + error.message;
-  }
+// LOAD WORK
+async function loadWork(){
+  if(!canSeeWork())return;
+  try{
+    let query=db.collection("work_register");
+    if(!isOwner())query=query.where("assignedTo","array-contains",currentUser.uid);
+    const snap=await query.get();
+    workCache=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderWork();renderDashboard();
+  }catch(error){$("workList").textContent="Could not load work records: "+error.message;}
+}
+function groupOrders(records){
+  const groups=new Map();
+  records.forEach(w=>{
+    const key=w.orderId||w.id;
+    if(!groups.has(key))groups.set(key,[]);
+    groups.get(key).push(w);
+  });
+  return [...groups.values()];
 }
 
-// ======================================================
-// 11. DASHBOARD AND REMINDERS
-// ======================================================
-function renderDashboard() {
-  const counts = {
-    total: workCache.length,
-    pending: 0, progress: 0, completed: 0, overdue: 0
-  };
-
-  workCache.forEach(w => {
-    const status = effectiveStatus(w);
-    if (status === "Pending") counts.pending++;
-    if (status === "In Progress") counts.progress++;
-    if (status === "Completed") counts.completed++;
-    if (status === "Overdue") counts.overdue++;
+// DASHBOARD AND REMINDERS
+function renderDashboard(){
+  if(!canSeeWork())return;
+  const counts={total:workCache.length,pending:0,progress:0,completed:0,overdue:0};
+  workCache.forEach(w=>{
+    const s=effectiveStatus(w);
+    if(s==="Pending")counts.pending++;
+    if(s==="In Progress")counts.progress++;
+    if(s==="Completed")counts.completed++;
+    if(s==="Overdue")counts.overdue++;
   });
-
-  $("stats").innerHTML = `
-    <div class="stat"><strong>${counts.total}</strong><span>Total work</span></div>
+  $("stats").innerHTML=`
+    <div class="stat"><strong>${counts.total}</strong><span>Garment tasks</span></div>
     <div class="stat"><strong>${counts.pending}</strong><span>Pending</span></div>
     <div class="stat"><strong>${counts.progress}</strong><span>In progress</span></div>
-    <div class="stat"><strong>${counts.overdue}</strong><span>Overdue</span></div>
-  `;
-
-  const today = todayString();
-  const future = new Date();
-  future.setDate(future.getDate() + 3);
-  const limit = new Date(future.getTime() -
-    future.getTimezoneOffset() * 60000).toISOString().slice(0,10);
-
-  const reminders = workCache.filter(w =>
-    w.status !== "Completed" && w.dueDate &&
-    w.dueDate <= limit
-  ).sort((a,b) => (a.dueDate || "").localeCompare(b.dueDate || ""));
-
-  $("reminders").innerHTML = reminders.length ? reminders.map(w => `
-    <div class="work-card">
-      <strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
-      <p>Due: ${safe(w.dueDate)}
-      <span class="badge ${w.dueDate < today ? "red" : ""}">
-        ${w.dueDate < today ? "Overdue" : "Due soon"}
-      </span></p>
-    </div>
-  `).join("") : "<p class='small'>No upcoming reminders.</p>";
-
-  const recent = [...workCache].sort((a,b) =>
-    (b.orderDate || "").localeCompare(a.orderDate || "")
-  ).slice(0,5);
-
-  $("recentWork").innerHTML = recent.length ? recent.map(w => `
-    <div class="work-card">
-      <strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
-      <p>${safe((w.tasks || []).join(", "))}</p>
-      <span class="badge">${safe(effectiveStatus(w))}</span>
-    </div>
-  `).join("") : "<p class='small'>No work records yet.</p>";
+    <div class="stat"><strong>${counts.overdue}</strong><span>Overdue</span></div>`;
+  const future=new Date();future.setDate(future.getDate()+3);
+  const limit=new Date(future.getTime()-future.getTimezoneOffset()*60000).toISOString().slice(0,10);
+  const reminders=workCache.filter(w=>w.status!=="Completed"&&w.dueDate&&w.dueDate<=limit)
+    .sort((a,b)=>(a.dueDate||"").localeCompare(b.dueDate||""));
+  $("reminders").innerHTML=reminders.length?reminders.map(w=>`
+    <div class="work-card"><strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
+    <p>Due: ${safe(w.dueDate)} <span class="badge ${w.dueDate<todayString()?"red":""}">${w.dueDate<todayString()?"Overdue":"Due soon"}</span></p></div>`).join(""):"<p class='small'>No upcoming reminders.</p>";
+  const recent=[...workCache].sort((a,b)=>dateSort(a,b,"orderDate")).slice(0,5);
+  $("recentWork").innerHTML=recent.length?recent.map(w=>`
+    <div class="work-card"><strong>${safe(w.clientName)} · ${safe(w.garment)}</strong>
+    <p>${safe((w.tasks||[]).join(", "))}</p><span class="badge">${safe(effectiveStatus(w))}</span></div>`).join(""):"<p class='small'>No work records yet.</p>";
 }
 
-// ======================================================
-// 12. WORK REGISTER DISPLAY AND SEARCH
-// ======================================================
-function renderWork() {
-  const term = $("searchBox").value.toLowerCase().trim();
-  const filter = $("statusFilter").value;
-
-  const filtered = workCache.filter(w => {
-    const searchText = [
-      w.clientName, w.phone, w.garment,
-      (w.tasks || []).join(" "), w.description,
-      (w.assignedNames || []).join(" ")
-    ].join(" ").toLowerCase();
-
-    const status = effectiveStatus(w);
-    const statusMatch = !filter || status === filter ||
-      (filter === "Overdue" && status === "Overdue");
-
-    return (!term || searchText.includes(term)) && statusMatch;
+// WORK REGISTER DISPLAY
+function renderWork(){
+  if(!canSeeWork())return;
+  const term=$("searchBox").value.toLowerCase().trim(),filter=$("statusFilter").value;
+  const filtered=workCache.filter(w=>{
+    const hay=[w.clientName,w.phone,w.garment,(w.tasks||[]).join(" "),w.description,(w.assignedNames||[]).join(" "),w.notes].join(" ").toLowerCase();
+    const status=effectiveStatus(w);
+    return (!term||hay.includes(term))&&(!filter||status===filter);
   });
-
-  if (!filtered.length) {
-    $("workList").innerHTML =
-      "<p class='muted'>No matching work records.</p>";
-    return;
-  }
-
-  $("workList").innerHTML = filtered.map(w => {
-    const status = effectiveStatus(w);
-    const badgeClass = status === "Completed" ? "green" :
-      status === "Overdue" ? "red" : "";
-
-    const photoHTML = (w.photoPaths || []).map((path, index) => `
-      <img class="photo" alt="Work photo ${index+1}"
-        data-photo-path="${safe(path)}">
-    `).join("");
-
-    return `
-      <article class="work-card">
-        <div class="topline">
-          <h3>${safe(w.clientName)} · ${safe(w.garment)}</h3>
-          <span class="badge ${badgeClass}">${safe(status)}</span>
-        </div>
-        <p><strong>Phone:</strong> ${safe(w.phone || "Not added")}</p>
-        <p><strong>Order date:</strong> ${safe(w.orderDate || "—")}</p>
-        <p><strong>Tasks:</strong> ${safe((w.tasks || []).join(", "))}</p>
-        <p><strong>Assigned to:</strong>
-          ${safe((w.assignedNames || []).join(", ") || "Not assigned")}
-        </p>
-        <p><strong>Date given:</strong> ${safe(w.dateGiven || "—")}</p>
-        <p><strong>Due date:</strong> ${safe(w.dueDate || "—")}</p>
-        <p><strong>Description:</strong> ${safe(w.description || "—")}</p>
-        <p><strong>Notes:</strong> ${safe(w.notes || "—")}</p>
-        <p><strong>Received on:</strong> ${safe(w.dateReceived || "Not received")}</p>
-        <div>${photoHTML}</div>
-        <button class="secondary" onclick="updateWork('${safe(w.id)}')">
-          Update work
-        </button>
-        ${isOwner() ? `
-          <button class="danger" onclick="deleteWork('${safe(w.id)}')">
-            Delete
-          </button>` : ""}
-      </article>
-    `;
+  const orders=groupOrders(filtered);
+  if(!orders.length){$("workList").innerHTML="<p class='muted'>No matching work records.</p>";return;}
+  $("workList").innerHTML=orders.map(order=>{
+    const first=order[0];
+    return `<article class="work-card">
+      <div class="topline"><h3>${safe(first.clientName)}</h3><span class="small">Order date: ${safe(first.orderDate||"—")}</span></div>
+      <p><strong>Phone:</strong> ${safe(first.phone||"Not added")}</p>
+      ${order.map(w=>{
+        const status=effectiveStatus(w),badge=status==="Completed"?"green":status==="Overdue"?"red":"";
+        const photos=(w.photoPaths||[]).map((p,i)=><img class="photo" alt="Work photo ${i+1}" data-photo-path="${safe(p)}">).join("");
+        return `<div class="garment-config">
+          <div class="topline"><h3>${safe(w.garment)}</h3><span class="badge ${badge}">${safe(status)}</span></div>
+          <p><strong>Tasks:</strong> ${safe((w.tasks||[]).join(", "))}</p>
+          <p><strong>Assigned to:</strong> ${safe((w.assignedNames||[]).join(", ")||"Not assigned")}</p>
+          <p><strong>Date given:</strong> ${safe(w.dateGiven||"—")} &nbsp; <strong>Due:</strong> ${safe(w.dueDate||"—")}</p>
+          <p><strong>Description:</strong> ${safe(w.description||"—")}</p>
+          <p><strong>Notes:</strong> ${safe(w.notes||"—")}</p>
+          <p><strong>Received on:</strong> ${safe(w.dateReceived||"Not received")}</p><div>${photos}</div>
+          <button class="secondary" onclick="updateWork('${safe(w.id)}')">Update ${safe(w.garment)}</button>
+          ${isOwner()?<button class="danger" onclick="deleteWork('${safe(w.id)}')">Delete ${safe(w.garment)}</button>:""}
+        </div>`;
+      }).join("")}
+    </article>`;
   }).join("");
-
-  document.querySelectorAll("[data-photo-path]").forEach(async img => {
-    try {
-      img.src = await storage.ref().child(img.dataset.photoPath).getDownloadURL();
-    } catch (error) {
-      img.alt = "Photo unavailable";
-    }
+  document.querySelectorAll("[data-photo-path]").forEach(async img=>{
+    try{img.src=await storage.ref().child(img.dataset.photoPath).getDownloadURL();}
+    catch(_){img.alt="Photo unavailable";}
   });
 }
-
-// ======================================================
-// 13. UPDATE WORK
-// Staff can update only the fields allowed by security rules.
-// ======================================================
-window.updateWork = async id => {
-  const work = workCache.find(w => w.id === id);
-  if (!work) return;
-
-  const status = prompt(
-    "Enter status:\nPending, Given for Work, In Progress, Received, Completed",
-    work.status || "Pending"
-  );
-  if (status === null) return;
-  if (!statuses.includes(status)) {
-    showMessage("Please enter a valid status from the list.", "error");
-    return;
-  }
-
-  const dateReceived = prompt(
-    "Received on (YYYY-MM-DD). Leave blank if not received:",
-    work.dateReceived || ""
-  );
-  if (dateReceived === null) return;
-
-  const notes = prompt("Update notes:", work.notes || "");
-  if (notes === null) return;
-
-  try {
+window.updateWork=async id=>{
+  if(!canSeeWork())return;
+  const work=workCache.find(w=>w.id===id);if(!work)return;
+  const status=prompt("Enter status:\nPending, Given for Work, In Progress, Received, Completed",work.status||"Pending");
+  if(status===null)return;if(!statuses.includes(status)){showMessage("Please enter a valid status from the list.","error");return;}
+  const dateReceived=prompt("Received on (YYYY-MM-DD). Leave blank if not received:",work.dateReceived||"");
+  if(dateReceived===null)return;
+  const notes=prompt("Update notes:",work.notes||"");if(notes===null)return;
+  try{
     await db.collection("work_register").doc(id).update({
-      status,
-      dateReceived,
-      notes: notes.trim(),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      status,dateReceived,notes:notes.trim(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()
     });
-    await loadWork();
-    showMessage("Work updated successfully.", "success");
-  } catch (error) {
-    showMessage("Could not update work: " + error.message, "error");
-  }
+    await loadWork();showMessage("Work updated successfully.","success");
+  }catch(error){showMessage("Could not update work: "+error.message,"error");}
 };
-
-// ======================================================
-// 14. OWNER DELETE
-// ======================================================
-window.deleteWork = async id => {
-  if (!isOwner()) return;
-  if (!confirm("Delete this work record and its photos?")) return;
-
-  try {
-    const work = workCache.find(w => w.id === id);
-    for (const path of (work?.photoPaths || [])) {
-      try { await storage.ref().child(path).delete(); } catch (_) {}
-    }
+window.deleteWork=async id=>{
+  if(!isOwner()||!confirm("Delete this garment record and its photos?"))return;
+  try{
+    const work=workCache.find(w=>w.id===id);
+    for(const path of (work?.photoPaths||[])){try{await storage.ref().child(path).delete();}catch(_){}}
     await db.collection("work_register").doc(id).delete();
-    await loadWork();
-    showMessage("Work record deleted.", "success");
-  } catch (error) {
-    showMessage("Could not delete work: " + error.message, "error");
-  }
+    await loadWork();showMessage("Garment record deleted.","success");
+  }catch(error){showMessage("Could not delete work: "+error.message,"error");}
 };
 
-// ======================================================
-// 15. FILTERS
-// ======================================================
-$("searchBox").addEventListener("input", renderWork);
-$("statusFilter").addEventListener("change", renderWork);
+// CUSTOMER DETAILS (OWNER ONLY)
+$("customerForm").onsubmit=async event=>{
+  event.preventDefault();if(!isOwner())return;
+  $("saveCustomerButton").disabled=true;
+  try{
+    await db.collection("customer_details").add({
+      name:$("customerName").value.trim(),phone:$("customerPhone").value.trim(),
+      address:$("customerAddress").value.trim(),notes:$("customerNotes").value.trim(),
+      createdAt:firebase.firestore.FieldValue.serverTimestamp(),
+      createdBy:currentUser.uid
+    });
+    $("customerForm").reset();await loadCustomers();showMessage("Customer saved.","success");
+  }catch(error){showMessage("Could not save customer: "+error.message,"error");}
+  finally{$("saveCustomerButton").disabled=false;}
+};
+async function loadCustomers(){
+  if(!isOwner())return;
+  try{
+    const snap=await db.collection("customer_details").get();
+    customerCache=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.name||"").localeCompare(b.name||""));
+    renderCustomers();
+  }catch(error){$("customerList").textContent="Could not load customers: "+error.message;}
+}
+function renderCustomers(){
+  const term=$("customerSearch").value.toLowerCase().trim();
+  const list=customerCache.filter(c=>[c.name,c.phone,c.address].join(" ").toLowerCase().includes(term));
+  $("customerList").innerHTML=list.length?list.map(c=>`
+    <div class="work-card"><strong>${safe(c.name)}</strong><p><strong>Phone:</strong> ${safe(c.phone||"—")}</p>
+    <p><strong>Address:</strong> ${safe(c.address||"—")}</p><p><strong>Notes:</strong> ${safe(c.notes||"—")}</p>
+    <button class="danger" onclick="deleteCustomer('${safe(c.id)}')">Delete</button></div>`).join(""):"<p class='small'>No customer records found.</p>";
+}
+$("customerSearch").addEventListener("input",renderCustomers);
+window.deleteCustomer=async id=>{
+  if(!isOwner()||!confirm("Delete this customer detail record?"))return;
+  try{await db.collection("customer_details").doc(id).delete();await loadCustomers();showMessage("Customer record deleted.","success");}
+  catch(error){showMessage("Could not delete customer: "+error.message,"error");}
+};
+
+// PAYMENTS (OWNER AND CONFIGURED PADMA)
+$("paymentDate").value=todayString();
+$("paymentForm").onsubmit=async event=>{
+  event.preventDefault();if(!canSeeFinance())return;
+  const total=Number($("paymentTotal").value||0),received=Number($("paymentReceived").value||0);
+  if(received<0||total<0||received>total&&total>0){showMessage("Check the payment amounts. Amount received cannot exceed the total order amount.","error");return;}
+  $("savePaymentButton").disabled=true;
+  try{
+    await db.collection("payments").add({
+      customerName:$("paymentCustomer").value.trim(),phone:$("paymentPhone").value.trim(),
+      paymentDate:$("paymentDate").value,totalAmount:total,amountReceived:received,
+      balanceDue:Math.max(0,total-received),paymentMethod:$("paymentMethod").value,
+      notes:$("paymentNotes").value.trim(),createdBy:currentUser.uid,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    $("paymentForm").reset();$("paymentDate").value=todayString();
+    await loadFinance();showMessage("Payment entry saved.","success");
+  }catch(error){showMessage("Could not save payment: "+error.message,"error");}
+  finally{$("savePaymentButton").disabled=false;}
+};
+
+// INCOME REGISTER (OWNER AND CONFIGURED PADMA)
+$("incomeDate").value=todayString();
+$("incomeForm").onsubmit=async event=>{
+  event.preventDefault();if(!canSeeFinance())return;
+  const total=Number($("incomeTotal").value||0),advance=Number($("incomeAdvance").value||0),balance=Number($("incomeBalance").value||0);
+  if(total<0||advance<0||balance<0||advance+balance>total){showMessage("Check the amounts. Advance plus balance received cannot exceed total amount.","error");return;}
+  $("saveIncomeButton").disabled=true;
+  try{
+    await db.collection("income_register").add({
+      date:$("incomeDate").value,customerName:$("incomeCustomer").value.trim(),
+      totalAmount:total,advancePayment:advance,balancePayment:balance,
+      totalPaid:advance+balance,balanceDue:Math.max(0,total-advance-balance),
+      notes:$("incomeNotes").value.trim(),createdBy:currentUser.uid,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    $("incomeForm").reset();$("incomeDate").value=todayString();$("incomeAdvance").value="0";$("incomeBalance").value="0";
+    await loadFinance();showMessage("Income entry saved.","success");
+  }catch(error){showMessage("Could not save income: "+error.message,"error");}
+  finally{$("saveIncomeButton").disabled=false;}
+};
+
+async function loadFinance(){
+  if(!canSeeFinance())return;
+  try{
+    const [pSnap,iSnap]=await Promise.all([
+      db.collection("payments").get(),db.collection("income_register").get()
+    ]);
+    paymentCache=pSnap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>dateSort(a,b,"paymentDate"));
+    incomeCache=iSnap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>dateSort(a,b,"date"));
+    renderPayments();renderIncome();
+  }catch(error){
+    $("paymentList").textContent="Could not load payments: "+error.message;
+    $("incomeList").textContent="Could not load income: "+error.message;
+  }
+}
+function renderPayments(){
+  const term=$("paymentSearch").value.toLowerCase().trim();
+  const list=paymentCache.filter(p=>[p.customerName,p.phone,p.paymentMethod].join(" ").toLowerCase().includes(term));
+  $("paymentList").innerHTML=list.length?list.map(p=>`
+    <div class="work-card"><div class="topline"><strong>${safe(p.customerName)}</strong><span class="badge">${safe(p.paymentDate||"")}</span></div>
+    <p><strong>Received:</strong> ${money(p.amountReceived)} &nbsp; <strong>Total:</strong> ${money(p.totalAmount)}</p>
+    <p><strong>Balance due on this entry:</strong> ${money(p.balanceDue)} &nbsp; <strong>Method:</strong> ${safe(p.paymentMethod||"—")}</p>
+    <p><strong>Phone:</strong> ${safe(p.phone||"—")} &nbsp; <strong>Notes:</strong> ${safe(p.notes||"—")}</p>
+    <button class="danger" onclick="deletePayment('${safe(p.id)}')">Delete</button></div>`).join(""):"<p class='small'>No payment entries found.</p>";
+}
+function renderIncome(){
+  const term=$("incomeSearch").value.toLowerCase().trim();
+  const list=incomeCache.filter(i=>[i.customerName,i.notes].join(" ").toLowerCase().includes(term));
+  const sum=list.reduce((n,i)=>n+Number(i.totalPaid||0),0);
+  $("incomeList").innerHTML=<p><strong>Total paid in displayed records: ${money(sum)}</strong></p>+
+    (list.length?list.map(i=>`
+      <div class="work-card"><div class="topline"><strong>${safe(i.customerName)}</strong><span class="badge">${safe(i.date||"")}</span></div>
+      <p><strong>Total amount:</strong> ${money(i.totalAmount)} &nbsp; <strong>Advance:</strong> ${money(i.advancePayment)}</p>
+      <p><strong>Balance payment received:</strong> ${money(i.balancePayment)} &nbsp; <strong>Total paid:</strong> ${money(i.totalPaid)}</p>
+      <p><strong>Balance still due:</strong> ${money(i.balanceDue)} &nbsp; <strong>Notes:</strong> ${safe(i.notes||"—")}</p>
+      <button class="danger" onclick="deleteIncome('${safe(i.id)}')">Delete</button></div>`).join(""):"<p class='small'>No income entries found.</p>");
+}
+$("paymentSearch").addEventListener("input",renderPayments);
+$("incomeSearch").addEventListener("input",renderIncome);
+window.deletePayment=async id=>{
+  if(!canSeeFinance()||!confirm("Delete this payment entry?"))return;
+  try{await db.collection("payments").doc(id).delete();await loadFinance();showMessage("Payment entry deleted.","success");}
+  catch(error){showMessage("Could not delete payment: "+error.message,"error");}
+};
+window.deleteIncome=async id=>{
+  if(!canSeeFinance()||!confirm("Delete this income entry?"))return;
+  try{await db.collection("income_register").doc(id).delete();await loadFinance();showMessage("Income entry deleted.","success");}
+  catch(error){showMessage("Could not delete income: "+error.message,"error");}
+};
+
+// SEARCH AND FILTERS
+$("searchBox").addEventListener("input",renderWork);
+$("statusFilter").addEventListener("change",renderWork);
 </script>
 </body>
 </html>
